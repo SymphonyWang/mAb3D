@@ -3,7 +3,7 @@ import subprocess
 import os
 
 ab3d_sheet = "/home/xiw4013/mAb3D/Ab3D-E-Screening - Ab3D.csv"
-inputlist = "/home/xiw4013/mAb3D/inputlistV3.csv"
+inputlist = "/home/xiw4013/mAb3D/inputlistV4.csv"
 input_dir = "/home/xiw4013/mAb3D/input"
 output_dir = "/home/xiw4013/mAb3D/zarr_upload/"
 
@@ -11,7 +11,8 @@ output_dir = "/home/xiw4013/mAb3D/zarr_upload/"
 def convert_to_ome_zarr(input_path, output_path): 
     
     # dimension-order Default ('XYZCT')
-    command = ['bioformats2raw', input_path, output_path, '--compression', 'zlib', '--compression-properties', 'level=9', '--resolutions', '5', '--series', '0,1,2,3,4']
+    # Serial AC section 5 → 3
+    command = ['bioformats2raw', input_path, output_path, '--compression', 'zlib', '--compression-properties', 'level=9', '--resolutions', '5', '--series', '0,1,2']
     result = subprocess.run(command, stderr=subprocess.PIPE)
 
      # Check if the command was successful
@@ -32,7 +33,7 @@ def main():
 
   for _, row in df.iterrows():
     if not pd.isnull(row['Czi Filename']):
-      for column in ['Ms1 Section#', 'Ms2 Section#', 'Hu1 (JC7)', 'Hu2 (JC8)', 'Hu3 (JC9)']:
+      for column in ['Ms1 Scene#', 'Ms2 Scene#', 'Hu Scene#']:
         if pd.notnull(row[column]):
           secnum = row[column]
           if secnum != '-':
@@ -44,7 +45,8 @@ def main():
           new_row = {
             'filename': row['Czi Filename'],
             'secnum': secnum,
-            'secname': column[:3],
+            # 'secname': column[:3],
+            'secname': column[:3].replace(' ', ''), # Remove whitespace from the column name "Hu "
             'transferflag': '0',
             'uploadflag': '0',
             'shortname': None,
