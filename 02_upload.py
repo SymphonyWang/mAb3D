@@ -3,10 +3,10 @@ import subprocess
 import pandas as pd
 
 # Define the server name and upload path
-upload_path = "/mnt/d/Xiaoman/001_mAb3D/05-E2/zarr_upload/"
-inputlist = "/mnt/d/Xiaoman/001_mAb3D/05-E2/workfile/inputlist_E2_BS1-27.csv"
+upload_path = "/mnt/d/Xiaoman/001_mAb3D/05-E2/zarr_upload/Ab3D-E2-CA/"
+inputlist = "/mnt/d/Xiaoman/001_mAb3D/05-E2/workfile/inputlist_E2_CA1-45.csv"
 s3_bucket = 'mAb3D'
-awsbucket_path = 's3://mAb3D/'
+awsbucket_path = 's3://mAb3D/Zarr/'
 
 # Function to upload zarr file to AWS S3 bucket
 def upload_to_s3(zarr_file, section_index):
@@ -14,7 +14,7 @@ def upload_to_s3(zarr_file, section_index):
     awspath = awsbucket_path + zarr_file + '/' + str(section_index) + '/'
 
     # aws_command = ['aws', '--endpoint-url', 'https://redcloud.cac.cornell.edu:8443/', '--no-verify', 's3', '--profile', 'CAC', 'cp',  '--recursive', zarrpath, awspath]
-    aws_command = ['aws', '--endpoint-url', 'https://redcloud.cac.cornell.edu:8443/', 's3', '--profile', 'CAC', 'cp',  '--recursive', zarrpath, awspath]
+    aws_command = ['aws', 's3', '--profile', 'CACNEW', 'cp',  '--recursive', zarrpath, awspath]
   
     result = subprocess.run(aws_command, stderr=subprocess.PIPE)
 
