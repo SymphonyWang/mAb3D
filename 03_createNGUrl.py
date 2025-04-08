@@ -8,9 +8,9 @@ from urllib.parse import quote
 # after: https://ngapp.mab3d-atlas.com/
 
 # Define the server name and upload path
-upload_path = "/mnt/d/Xiaoman/001_mAb3D/05-E2/zarr_upload/Ab3D-E2-BZ/"
-inputlist = "/mnt/d/Xiaoman/001_mAb3D/05-E2/workfile/inputlist_E2_BZ1-19.csv"
-outputlist = "/mnt/d/Xiaoman/001_mAb3D/05-E2/workfile/inputlist_E2_BZ1-19_url.csv"
+upload_path = "/mnt/d/Xiaoman/001_mAb3D/05-E2/zarr_upload/Ab3D-E2-CC/"
+inputlist = "/mnt/d/Xiaoman/001_mAb3D/05-E2/workfile/inputlist_E2_CC1-12.csv"
+outputlist = "/mnt/d/Xiaoman/001_mAb3D/05-E2/workfile/inputlist_E2_CC1-12_url.csv"
 
 # 4 channels: Far red long exp(anti), Far red short exp(anti), Hoechst(Nuclear), Red(Vessel)
 layer0name = '%22Far%20red%20%28'
@@ -88,6 +88,21 @@ def create_org_URL_ver_2ch_90cw (zarr_file, section, secname, markername, center
     except Exception as e:
         print(f"Error creating org URL: {e}")
         return None, None
+    
+def create_org_URL_2ch (zarr_file, section, secname, markername, center_width, center_height, layer0name, layer1name, pixel_p1_c0, pixel_p99_c0, pixel_p1_c1, pixel_p99_c1):
+    try:   
+        # encode zarr file URL
+        zarr_file_encode = quote(zarr_file)
+
+        # keep original orientation
+        orgURL = "https://ngapp.mab3d-atlas.com/#!%7B%22dimensions%22:%7B%22x%22:%5B0.0000013759848761314483%2C%22m%22%5D%2C%22y%22:%5B0.0000013759848761314483%2C%22m%22%5D%2C%22z%22:%5B0.0000013759848761314483%2C%22m%22%5D%2C%22t%22:%5B1%2C%22%22%5D%7D%2C%22position%22:%5B{center_width1}%2C{center_height1}1%2C0.5%2C0%5D%2C%22crossSectionScale%22:9.227814895369777%2C%22projectionOrientation%22:%5B-0.3254466950893402%2C0.8991797566413879%2C0.2924036383628845%2C0.007767873350530863%5D%2C%22projectionScale%22:12314.085503119006%2C%22layers%22:%5B%7B%22type%22:%22image%22%2C%22source%22:%22zarr2://https://wulab.cac.cornell.edu:8443/swift/v1/mAb3D/Zarr/{zarr_file_encode1}/{section1}/%22%2C%22localDimensions%22:%7B%22c%27%22:%5B1%2C%22%22%5D%7D%2C%22localPosition%22:%5B1%5D%2C%22tab%22:%22rendering%22%2C%22shader%22:%22#define%20VOLUME_RENDERING%20false%5Cn%5Cn#uicontrol%20invlerp%20value%28range=%5B0%2C16383%5D%29%5Cn%5Cn#define%20WHITE%20%5C%22#FFFFFF%5C%22%5Cn#define%20RED%20%5C%22#FF0000%5C%22%5Cn#define%20GREEN%20%5C%22#00FF00%5C%22%5Cn#define%20BLUE%20%5C%22#0000FF%5C%22%5Cn#define%20YELLOW%20%5C%22#FFFF00%5C%22%5Cn#define%20MAGENTA%20%5C%22#FF00FF%5C%22%5Cn#define%20CYAN%20%5C%22#00FFFF%5C%22%5Cn%5Cn#uicontrol%20vec3%20display_color%20color%28default=%5C%22#FFFFFF%5C%22%29%3B%5Cn%5Cn%5Cnvoid%20main%28%29%20%7B%5Cn%20%20float%20f%20=%20value%28%29%3B%5Cn%20%20//emitGrayscale%28f%29%3B%5Cn%20%20//%2A%5Cn%20%20int%20as_alpha%20=%200%3B%5Cn%20%20if%20%28as_alpha==1%29%20%7B%5Cn%20%20%20%20%20%20emitRGBA%28vec4%28display_color%2C%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20f%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%29%29%3B%5Cn%20%20%7D%20else%20if%20%28as_alpha==0%29%20%7B%5Cn%20%20%20%20%20%20emitRGB%28f%2Adisplay_color%29%3B%5Cn%20%20%7D%20%20//%2A/%5Cn%7D%5Cn%5Cn%22%2C%22shaderControls%22:%7B%22value%22:%7B%22range%22:%5B{pixel_p1_c1}%2C{pixel_p99_c1}%5D%7D%7D%2C%22crossSectionRenderScale%22:0.1%2C%22name%22:{layer0name1}{markername1}%29%22%7D%2C%7B%22type%22:%22image%22%2C%22source%22:%22zarr2://https://wulab.cac.cornell.edu:8443/swift/v1/mAb3D/Zarr/{zarr_file_encode1}/{section1}/%22%2C%22localDimensions%22:%7B%22c%27%22:%5B1%2C%22%22%5D%7D%2C%22localPosition%22:%5B0%5D%2C%22tab%22:%22rendering%22%2C%22shader%22:%22#define%20VOLUME_RENDERING%20false%5Cn%5Cn#uicontrol%20invlerp%20value%28range=%5B0%2C16383%5D%29%5Cn%5Cn#define%20WHITE%20%5C%22#FFFFFF%5C%22%5Cn#define%20RED%20%5C%22#FF0000%5C%22%5Cn#define%20GREEN%20%5C%22#00FF00%5C%22%5Cn#define%20BLUE%20%5C%22#0000FF%5C%22%5Cn#define%20YELLOW%20%5C%22#FFFF00%5C%22%5Cn#define%20MAGENTA%20%5C%22#FF00FF%5C%22%5Cn#define%20CYAN%20%5C%22#00FFFF%5C%22%5Cn%5Cn#uicontrol%20vec3%20display_color%20color%28default=%5C%22#FFFFFF%5C%22%29%3B%5Cn%5Cn%5Cnvoid%20main%28%29%20%7B%5Cn%20%20float%20f%20=%20value%28%29%3B%5Cn%20%20//emitGrayscale%28f%29%3B%5Cn%20%20//%2A%5Cn%20%20int%20as_alpha%20=%200%3B%5Cn%20%20if%20%28as_alpha==1%29%20%7B%5Cn%20%20%20%20%20%20emitRGBA%28vec4%28display_color%2C%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20f%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%29%29%3B%5Cn%20%20%7D%20else%20if%20%28as_alpha==0%29%20%7B%5Cn%20%20%20%20%20%20emitRGB%28f%2Adisplay_color%29%3B%5Cn%20%20%7D%20%20//%2A/%5Cn%7D%5Cn%22%2C%22shaderControls%22:%7B%22value%22:%7B%22range%22:%5B{pixel_p1_c0}%2C{pixel_p99_c0}%5D%7D%2C%22display_color%22:%22#00ff00%22%7D%2C%22crossSectionRenderScale%22:0.1%2C%22name%22:{layer1name1}22%2C%22visible%22:false%7D%5D%2C%22selectedLayer%22:%7B%22size%22:637%2C%22visible%22:true%2C%22layer%22:{layer0name1}{markername1}%29%22%7D%2C%22layout%22:%22xy%22%7D".format(zarr_file_encode1=zarr_file_encode, section1=section, markername1=markername, center_width1=center_width, center_height1=center_height, layer0name1=layer0name, layer1name1=layer1name, pixel_p1_c0=pixel_p1_c0, pixel_p99_c0=pixel_p99_c0, pixel_p1_c1=pixel_p1_c1, pixel_p99_c1=pixel_p99_c1)
+
+        shortname = zarr_file.replace('.zarr', '') + '-' + secname
+        print(f"creating org URL for {shortname} have been successfully completed.")
+        return shortname, orgURL
+    except Exception as e:
+        print(f"Error creating org URL: {e}")
+        return None, None    
          
 def main():
     # read the inputlist.csv using pandas
@@ -122,6 +137,8 @@ def main():
                     shortname, orgURL = create_org_URL_ver_2ch_90ccw(zarr_file, section, secname, markername, center_width, center_height, layer0name, layer1name, pixel_p1_c0, pixel_p99_c0, pixel_p1_c1, pixel_p99_c1)
                 elif type == 'anti-v-2ch_90cw':
                     shortname, orgURL = create_org_URL_ver_2ch_90cw(zarr_file, section, secname, markername, center_width, center_height, layer0name, layer1name, pixel_p1_c0, pixel_p99_c0, pixel_p1_c1, pixel_p99_c1)
+                elif type == 'anti-h-2ch':
+                    shortname, orgURL = create_org_URL_2ch(zarr_file, section, secname, markername, center_width, center_height, layer0name, layer1name, pixel_p1_c0, pixel_p99_c0, pixel_p1_c1, pixel_p99_c1)
 
                 df.at[index, 'shortname'] = shortname  # Updating shortname in DataFrame
                 df.at[index, 'orgURL'] = orgURL  # Updating orgURL in DataFrame
